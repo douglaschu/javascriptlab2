@@ -48,7 +48,7 @@ console.log(submissions);
 //#3
 //Deleting an entry based on its index number in the array
 const deleteSubmissionByIndex = (array, index) => {
-    array.splice(index);
+    array.splice(index, 1);
 }
 deleteSubmissionByIndex(submissions, 4);
 console.log('Build Specification #3: deleteSubmissionByIndex');
@@ -63,9 +63,17 @@ console.log(submissions);
 const deleteSubmissionByName = (array, name) => {
    const index = array.findIndex(element => element.name === name); //anonymous function: does not need to be declared as variable, or even named:
    if (index >= 0) { 
-        array.splice(index);
+        // Very important here: The second parameter of splice tells it 
+        // how many items to remove. Without it, it will remove everything 
+        // after the given index. Hard to detect that issue, since you 
+        // tested it with 'Asami', which just so happened to be the last
+        // item in the array! Tricky.
+        array.splice(index, 1);
    } //conditional is helpful to avoid running with undefined index
 }
+// deleteSubmissionByName(submissions, 'Jane');
+// deleteSubmissionByName(submissions, 'Joe');
+// deleteSubmissionByName(submissions, 'Jack');
 deleteSubmissionByName(submissions, 'Asami');
 console.log('Build Specification #4: deleteSubmissionByName');
 console.log(submissions);
@@ -146,9 +154,10 @@ console.log(findAverageScore(submissions));
 //#9
 //Creates a new data set with only entries with passing scores (returns new array)
 const filterPassing = (array) => {
-
-    const passingScores = array.filter(element => element.passed === true);
-    return passingScores;    
+    // Completely optional style suggestion: You could simplify
+    // by skipping the intermediary variable and go straight to the
+    // return statement...
+    return array.filter(element => element.passed === true);
 }
 console.log('Build Specification #9: filterPassing');
 console.log(filterPassing(submissions));
